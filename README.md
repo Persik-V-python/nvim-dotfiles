@@ -4,24 +4,54 @@
 
 ## Требования
 
-- Neovim 0.9+
-- Git
-- [Crush CLI](https://github.com/charmbracelet/crush) (опционально, для Codock)
-- cURL (для Kimi Usage мониторинга)
-- Для некоторых плагинов:
-  - Node.js (для LSP серверов)
-  - Go (для `gopls`)
-  - Rust (для `rust_analyzer`)
+- **Neovim 0.9+**
+- **Git**
+- **cURL** (для Kimi Usage и автозагрузки vim-plug)
+- **Build tools**: `make`, `gcc`, `g++` (для telescope-fzf-native и Treesitter)
+- **ripgrep** (`rg`) — поиск по тексту в Telescope
+- **fd** (`fd-find`) — быстрый поиск файлов в Telescope
+- **Node.js + npm** — Treesitter парсеры и LSP через Mason
+- **Python 3 + pip** — LSP (pyright) и форматтер (black)
+- **[Crush CLI](https://github.com/charmbracelet/crush)** — опционально, для Codock
+
+### Опционально (языковые серверы)
+
+- **Go** — для `gopls`
+- **Rust (rustup)** — для `rust_analyzer`
+
+### Поддерживаемые дистрибутивы
+
+Скрипт `install.sh` автоматически устанавливает зависимости на:
+
+| Дистрибутив | Пакетный менеджер |
+|-------------|-------------------|
+| Ubuntu, Debian, Pop!_OS | `apt` |
+| Arch Linux, Manjaro, EndeavourOS, CachyOS | `pacman` |
+
+На других системах зависимости нужно установить вручную.
 
 ## Установка
 
 ### 1. Клонирование
 
+Клонируйте репозиторий в удобное место (не в `~/.config/nvim`):
+
 ```bash
-git clone https://github.com/Persik-V-python/nvim-dotfiles.git ~/.config/nvim
+git clone https://github.com/Persik-V-python/nvim-dotfiles.git ~/nvim-dotfiles
+cd ~/nvim-dotfiles
 ```
 
-### 2. Установка плагинов
+### 2. Запуск установки
+
+Скрипт создаст символическую ссылку `~/.config/nvim` → папка `nvim/` в репозитории:
+
+```bash
+./install.sh
+```
+
+Существующий конфиг будет сохранён с суффиксом `.bak.<timestamp>`.
+
+### 3. Установка плагинов
 
 При первом запуске Neovim автоматически загрузит `vim-plug`. Затем выполните:
 
@@ -31,7 +61,7 @@ git clone https://github.com/Persik-V-python/nvim-dotfiles.git ~/.config/nvim
 
 После установки перезапустите Neovim.
 
-### 3. Установка LSP-серверов
+### 4. Установка LSP-серверов
 
 ```vim
 :Mason
@@ -39,13 +69,13 @@ git clone https://github.com/Persik-V-python/nvim-dotfiles.git ~/.config/nvim
 
 Откроется интерфейс для установки языковых серверов (LSP), линтеров и форматтеров.
 
-### 4. Установка парсеров Treesitter
+### 5. Установка парсеров Treesitter
 
 ```vim
 :TSUpdate
 ```
 
-### 5. Установка FZF-расширения для Telescope
+### 6. Установка FZF-расширения для Telescope
 
 Если `telescope-fzf-native` не собрался автоматически:
 
@@ -54,7 +84,7 @@ cd ~/.local/share/nvim/plugged/telescope-fzf-native.nvim
 make
 ```
 
-### 6. Настройка Kimi API токена (опционально)
+### 7. Настройка Kimi API токена (опционально)
 
 Для мониторинга лимитов Kimi Usage добавьте API-токен **одним** из способов:
 
