@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vim Cheat Sheet — Переход с VS Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e1e2e;
+            --bg-card: #313244;
+            --bg-header: #181825;
+            --text: #cdd6f4;
+            --text-muted: #a6adc8;
+            --accent: #89b4fa;
+            --accent-2: #f38ba8;
+            --accent-3: #a6e3a1;
+            --accent-4: #fab387;
+            --accent-5: #cba6f7;
+            --border: #45475a;
+            --shadow: rgba(0,0,0,0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            background: var(--bg-header);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent-4), var(--accent-5));
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-5));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header .badge {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.4rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        /* Print info */
+        .print-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+
+        .card-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-header .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .card-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .card-body {
+            padding: 1rem 1.25rem;
+        }
+
+        .shortcut {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .shortcut:last-child {
+            border-bottom: none;
+        }
+
+        .key {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            background: var(--bg-header);
+            border: 1px solid var(--border);
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .key.pink { color: var(--accent-2); }
+        .key.green { color: var(--accent-3); }
+        .key.orange { color: var(--accent-4); }
+        .key.purple { color: var(--accent-5); }
+
+        .desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-left: 1rem;
+            text-align: right;
+            flex: 1;
+        }
+
+        .desc strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Guide section */
+        .guide-section {
+            margin-top: 2.5rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .guide-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .guide-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .guide-body {
+            padding: 1.5rem;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .guide-card {
+            background: var(--bg-header);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+        }
+
+        .guide-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        .guide-card ul {
+            list-style: none;
+        }
+
+        .guide-card li {
+            padding: 0.35rem 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .guide-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-3);
+            font-weight: 600;
+        }
+
+        .guide-card .tip {
+            margin-top: 0.75rem;
+            padding: 0.6rem 0.8rem;
+            background: rgba(137, 180, 250, 0.1);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer .heart {
+            color: var(--accent-2);
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: #fff;
+                color: #1e1e2e;
+                padding: 0;
+            }
+
+            .header, .card, .guide-section, .guide-card {
+                background: #fff;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .header::before {
+                display: none;
+            }
+
+            .header h1 {
+                background: none;
+                -webkit-text-fill-color: #1e1e2e;
+                color: #1e1e2e;
+            }
+
+            .key {
+                background: #f0f0f5;
+                border: 1px solid #ccc;
+                color: #0055aa;
+            }
+
+            .card-header, .guide-header {
+                border-bottom: 1px solid #ddd;
+            }
+
+            .shortcut {
+                border-bottom: 1px solid #eee;
+            }
+
+            .desc, .subtitle, .print-info, .guide-card li, .footer {
+                color: #555;
+            }
+
+            .guide-card h3 {
+                color: #0055aa;
+            }
+
+            .card:hover, .card-header .icon {
+                box-shadow: none;
+                transform: none;
+            }
+
+            .guide-card .tip {
+                background: #f0f4ff;
+                border-left: 3px solid #0055aa;
+            }
+
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .guide-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Vim Cheat Sheet</h1>
+            <p class="subtitle">Мини-гайд для перехода с VS Code на Neovim</p>
+            <span class="badge">Распечатай и положи на стол →</span>
+        </div>
+
+        <p class="print-info">Оптимизировано для печати на A4 / Letter. Рекомендуется печать в ландшафтной ориентации для лучшего отображения.</p>
+
+        <!-- Main Grid -->
+        <div class="grid">
+            <!-- Navigation -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(137,180,250,0.15);">🧭</div>
+                    <h2>Навигация</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key">h j k l</span><span class="desc">Влево, вниз, вверх, вправо</span></div>
+                    <div class="shortcut"><span class="key">w / b</span><span class="desc">Слово вперёд / назад</span></div>
+                    <div class="shortcut"><span class="key">e / ge</span><span class="desc">Конец слова вперёд / назад</span></div>
+                    <div class="shortcut"><span class="key">0 / ^ / $</span><span class="desc">Начало / текст / конец строки</span></div>
+                    <div class="shortcut"><span class="key">gg / G</span><span class="desc">Начало / конец файла</span></div>
+                    <div class="shortcut"><span class="key">{ / }</span><span class="desc">Параграф вверх / вниз</span></div>
+                    <div class="shortcut"><span class="key">% </span><span class="desc">К парной скобке</span></div>
+                    <div class="shortcut"><span class="key">H / M / L</span><span class="desc">Верх / середина / низ экрана</span></div>
+                    <div class="shortcut"><span class="key">Ctrl+u / Ctrl+d</span><span class="desc">Половина страницы вверх / вниз</span></div>
+                    <div class="shortcut"><span class="key">zz</span><span class="desc">Центрировать курсор</span></div>
+                </div>
+            </div>
+
+            <!-- Editing -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(243,139,168,0.15);">✏️</div>
+                    <h2>Редактирование</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key pink">i / a</span><span class="desc">Вставка перед / после курсора</span></div>
+                    <div class="shortcut"><span class="key pink">I / A</span><span class="desc">Вставка в начало / конец строки</span></div>
+                    <div class="shortcut"><span class="key pink">o / O</span><span class="desc">Новая строка ниже / выше</span></div>
+                    <div class="shortcut"><span class="key pink">cc</span><span class="desc">Заменить всю строку</span></div>
+                    <div class="shortcut"><span class="key pink">cw / c$</span><span class="desc">Изменить слово / до конца строки</span></div>
+                    <div class="shortcut"><span class="key pink">r / R</span><span class="desc">Заменить символ / режим замены</span></div>
+                    <div class="shortcut"><span class="key pink">x / X</span><span class="desc">Удалить символ под / перед курсором</span></div>
+                    <div class="shortcut"><span class="key pink">dd / yy</span><span class="desc">Удалить / скопировать строку</span></div>
+                    <div class="shortcut"><span class="key pink">dw / yw</span><span class="desc">Удалить / скопировать слово</span></div>
+                    <div class="shortcut"><span class="key pink">p / P</span><span class="desc">Вставить после / перед курсором</span></div>
+                    <div class="shortcut"><span class="key pink">u / Ctrl+r</span><span class="desc">Отменить / повторить</span></div>
+                    <div class="shortcut"><span class="key pink">.</span><span class="desc">Повторить последнее действие</span></div>
+                </div>
+            </div>
+
+            <!-- Visual Mode -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(166,227,161,0.15);">👁️</div>
+                    <h2>Визуальный режим</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key green">v</span><span class="desc">Символьное выделение</span></div>
+                    <div class="shortcut"><span class="key green">V</span><span class="desc">Построчное выделение</span></div>
+                    <div class="shortcut"><span class="key green">Ctrl+v</span><span class="desc">Блочное выделение</span></div>
+                    <div class="shortcut"><span class="key green">> / <</span><span class="desc">Сдвинуть вправо / влево</span></div>
+                    <div class="shortcut"><span class="key green">y / d</span><span class="desc">Копировать / удалить выделение</span></div>
+                    <div class="shortcut"><span class="key green">J / K</span><span class="desc">Переместить выделенное вниз / вверх</span></div>
+                    <div class="shortcut"><span class="key green">o / O</span><span class="desc">Переместить курсор в другое ребро</span></div>
+                    <div class="shortcut"><span class="key green">gv</span><span class="desc">Повторить последнее выделение</span></div>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(250,179,135,0.15);">🔍</div>
+                    <h2>Поиск и замена</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key orange">/pattern</span><span class="desc">Поиск вперёд</span></div>
+                    <div class="shortcut"><span class="key orange">?pattern</span><span class="desc">Поиск назад</span></div>
+                    <div class="shortcut"><span class="key orange">n / N</span><span class="desc">Следующее / предыдущее совпадение</span></div>
+                    <div class="shortcut"><span class="key orange">*</span><span class="desc">Искать слово под курсором</span></div>
+                    <div class="shortcut"><span class="key orange">:%s/old/new/g</span><span class="desc">Заменить всё</span></div>
+                    <div class="shortcut"><span class="key orange">:%s/old/new/gc</span><span class="desc">Заменить с подтверждением</span></div>
+                    <div class="shortcut"><span class="key orange">:noh</span><span class="desc">Убрать подсветку поиска</span></div>
+                </div>
+            </div>
+
+            <!-- VS Code Parallels -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(203,166,247,0.15);">🔄</div>
+                    <h2>VS Code → Vim</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key purple">Ctrl+P</span><span class="desc">→ <strong>leader ff</strong> (Telescope)</span></div>
+                    <div class="shortcut"><span class="key purple">Ctrl+Shift+F</span><span class="desc">→ <strong>leader fg</strong> (grep)</span></div>
+                    <div class="shortcut"><span class="key purple">F12 / Ctrl+Click</span><span class="desc">→ <strong>gd</strong> (go to def)</span></div>
+                    <div class="shortcut"><span class="key purple">Ctrl+/</span><span class="desc">→ <strong>gcc</strong> или <strong>gc</strong></span></div>
+                    <div class="shortcut"><span class="key purple">Ctrl+S</span><span class="desc">→ <strong>:w</strong> или <strong>Ctrl+s</strong></span></div>
+                    <div class="shortcut"><span class="key purple">Ctrl+Shift+P</span><span class="desc">→ <strong>:</strong> (командная строка)</span></div>
+                    <div class="shortcut"><span class="key purple">Alt+↑/↓</span><span class="desc">→ <strong>Alt+k/j</strong> (двигать строку)</span></div>
+                    <div class="shortcut"><span class="key purple">Ctrl+Shift+K</span><span class="desc">→ <strong>dd</strong> (удалить строку)</span></div>
+                    <div class="shortcut"><span class="key purple">Ctrl+D</span><span class="desc">→ <strong>Ctrl+n</strong> (multi-cursor)</span></div>
+                    <div class="shortcut"><span class="key purple">Ctrl+W</span><span class="desc">→ <strong>Ctrl+w</strong> (окна)</span></div>
+                </div>
+            </div>
+
+            <!-- My Config -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(137,180,250,0.15);">⚙️</div>
+                    <h2>Мой конфиг (Leader=Space)</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key">leader e</span><span class="desc">Файловый менеджер</span></div>
+                    <div class="shortcut"><span class="key">leader ff</span><span class="desc">Найти файл</span></div>
+                    <div class="shortcut"><span class="key">leader fg</span><span class="desc">Поиск по тексту</span></div>
+                    <div class="shortcut"><span class="key">leader fb</span><span class="desc">Список буферов</span></div>
+                    <div class="shortcut"><span class="key">leader fr</span><span class="desc">Недавние файлы</span></div>
+                    <div class="shortcut"><span class="key">leader bn/bp/bd</span><span class="desc">След./пред./закр. буфер</span></div>
+                    <div class="shortcut"><span class="key">leader sv/sh</span><span class="desc">Верт./гор. сплит</span></div>
+                    <div class="shortcut"><span class="key">leader fm</span><span class="desc">Форматировать</span></div>
+                    <div class="shortcut"><span class="key">leader rn</span><span class="desc">Переименовать (LSP)</span></div>
+                    <div class="shortcut"><span class="key">leader ca</span><span class="desc">Code action (LSP)</span></div>
+                    <div class="shortcut"><span class="key">leader qs/ql</span><span class="desc">Восстановить сессию</span></div>
+                    <div class="shortcut"><span class="key">leader xx</span><span class="desc">Список ошибок (Trouble)</span></div>
+                </div>
+            </div>
+
+            <!-- Windows & Tabs -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(243,139,168,0.15);">🪟</div>
+                    <h2>Окна и табы</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key pink">Ctrl+w h/j/k/l</span><span class="desc">Перейти в окно</span></div>
+                    <div class="shortcut"><span class="key pink">Ctrl+w v / s</span><span class="desc">Верт./гор. сплит</span></div>
+                    <div class="shortcut"><span class="key pink">Ctrl+w q / o</span><span class="desc">Закрыть / оставить одно</span></div>
+                    <div class="shortcut"><span class="key pink">Ctrl+w =</span><span class="desc">Уравнять размеры</span></div>
+                    <div class="shortcut"><span class="key pink">gt / gT</span><span class="desc">Следующий / предыдущий таб</span></div>
+                    <div class="shortcut"><span class="key pink">:tabnew</span><span class="desc">Новый таб</span></div>
+                    <div class="shortcut"><span class="key pink">:tabo</span><span class="desc">Закрыть другие табы</span></div>
+                </div>
+            </div>
+
+            <!-- LSP & Diagnostics -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(166,227,161,0.15);">🔧</div>
+                    <h2>LSP и диагностика</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key green">K</span><span class="desc">Hover (документация)</span></div>
+                    <div class="shortcut"><span class="key green">gd</span><span class="desc">Перейти к определению</span></div>
+                    <div class="shortcut"><span class="key green">gr</span><span class="desc">Найти все ссылки</span></div>
+                    <div class="shortcut"><span class="key green">gi</span><span class="desc">Перейти к реализации</span></div>
+                    <div class="shortcut"><span class="key green">]d / [d</span><span class="desc">След./пред. диагностика</span></div>
+                    <div class="shortcut"><span class="key green">leader xx</span><span class="desc">Список всех ошибок</span></div>
+                    <div class="shortcut"><span class="key green">leader rn</span><span class="desc">Переименовать символ</span></div>
+                    <div class="shortcut"><span class="key green">leader ca</span><span class="desc">Быстрое действие</span></div>
+                    <div class="shortcut"><span class="key green">Ctrl+k (в insert)</span><span class="desc">Подпись функции</span></div>
+                </div>
+            </div>
+
+            <!-- Git -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon" style="background: rgba(250,179,135,0.15);">🔀</div>
+                    <h2>Git (Gitsigns)</h2>
+                </div>
+                <div class="card-body">
+                    <div class="shortcut"><span class="key orange">]g / [g</span><span class="desc">След./пред. hunk</span></div>
+                    <div class="shortcut"><span class="key orange">leader gs</span><span class="desc">Stage hunk</span></div>
+                    <div class="shortcut"><span class="key orange">leader gr</span><span class="desc">Reset hunk</span></div>
+                    <div class="shortcut"><span class="key orange">leader gp</span><span class="desc">Preview hunk</span></div>
+                    <div class="shortcut"><span class="key orange">leader gb</span><span class="desc">Blame line</span></div>
+                    <div class="shortcut"><span class="key orange">leader gd</span><span class="desc">Diff this</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guide Section -->
+        <div class="guide-section">
+            <div class="guide-header">
+                <h2>📖 Мини-гайд: Как пережить первую неделю</h2>
+            </div>
+            <div class="guide-body">
+                <div class="guide-grid">
+                    <div class="guide-card">
+                        <h3>1. Режимы — главное отличие</h3>
+                        <ul>
+                            <li><strong>Normal</strong> — для навигации и команд</li>
+                            <li><strong>Insert</strong> — для ввода текста (i, a, o)</li>
+                            <li><strong>Visual</strong> — для выделения (v, V, Ctrl+v)</li>
+                            <li><strong>Command</strong> — для команд (:w, :q)</li>
+                        </ul>
+                        <div class="tip">💡 Всегда возвращайся в Normal режим (Esc). Это домашняя позиция.</div>
+                    </div>
+
+                    <div class="guide-card">
+                        <h3>2. Мышь не нужна</h3>
+                        <ul>
+                            <li>h j k l — базовое перемещение</li>
+                            <li>w b e — по словам</li>
+                            <li>f{char} / t{char} — найти символ в строке</li>
+                            <li>gg / G — начало / конец файла</li>
+                            <li>{ / } — по параграфам</li>
+                        </ul>
+                        <div class="tip">💡 Скорость придёт через 3-5 дней активного использования.</div>
+                    </div>
+
+                    <div class="guide-card">
+                        <h3>3. Объектно-глагольная модель</h3>
+                        <ul>
+                            <li>d — delete (удалить)</li>
+                            <li>y — yank (копировать)</li>
+                            <li>c — change (изменить)</li>
+                            <li>v — visual (выделить)</li>
+                        </ul>
+                        <div class="tip">💡 d2w = delete 2 words. ci" = change inside quotes. yy = yank line.</div>
+                    </div>
+
+                    <div class="guide-card">
+                        <h3>4. Text objects — суперсила</h3>
+                        <ul>
+                            <li>iw / aw — inner / around word</li>
+                            <li>i" / a" — inner / around quotes</li>
+                            <li>i( / a( — inner / around parentheses</li>
+                            <li>it / at — inner / around tag (HTML)</li>
+                        </ul>
+                        <div class="tip">💡 ci" изменит текст внутри кавычек. da( удалит скобки и всё внутри.</div>
+                    </div>
+
+                    <div class="guide-card">
+                        <h3>5. Макросы для повторяющихся задач</h3>
+                        <ul>
+                            <li>qa — начать запись макроса в регистр a</li>
+                            <li>q — остановить запись</li>
+                            <li>@a — воспроизвести макрос a</li>
+                            <li>@@ — повторить последний макрос</li>
+                            <li>10@a — выполнить 10 раз</li>
+                        </ul>
+                        <div class="tip">💡 Это как multi-cursor, но мощнее. Идеально для форматирования JSON.</div>
+                    </div>
+
+                    <div class="guide-card">
+                        <h3>6. Что важно помнить</h3>
+                        <ul>
+                            <li>. — повторить последнее действие</li>
+                            <li>; / , — повторить f/t вперёд / назад</li>
+                            <li>Ctrl+a / Ctrl+x — инкремент / декремент числа</li>
+                            <li>>> / << — отступ для строки</li>
+                            <li>~ — изменить регистр символа</li>
+                            <li>Ctrl+r = — посчитать выражение (в insert)</li>
+                        </ul>
+                        <div class="tip">💡 Не пытайся выучить всё сразу. Начни с h j k l, i, Esc, :w, :q.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Сделано с <span class="heart">♥</span> для комфортного перехода с VS Code на Neovim</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">Конфиг: nvim/init.lua · Плагины: lazy.nvim · Тема: Catppuccin</p>
+        </div>
+    </div>
+</body>
+</html>
