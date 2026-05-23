@@ -18,7 +18,7 @@
 ### 1. Клонирование
 
 ```bash
-git clone https://github.com/ваш-ник/nvim-dotfiles.git ~/.config/nvim
+git clone https://github.com/Persik-V-python/nvim-dotfiles.git ~/.config/nvim
 ```
 
 ### 2. Установка плагинов
